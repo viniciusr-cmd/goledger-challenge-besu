@@ -10,7 +10,7 @@ besu/genesis
 besu/contracts/node_modules
 
 besu/contracts/build/contracts
-
+go.sum
 
 
 .DS_Store
