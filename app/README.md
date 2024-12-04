@@ -7,8 +7,12 @@ This project is a Go application that interacts with a smart contract on the Bes
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Initialization](#initialization)
-- [Set up the Go RESTful API app](#api)
+- [Set up the Go RESTful API app](#set-up-the-go-restful-api-app)
 - [Endpoints](#endpoints)
+- [Unit Tests](#tests)
+- [Technologies Used](#technologies-used)
+- [Architecture](#architecture)
+- [Flow of Operations](#flow-of-operations)
 
 ## Requirements
 
@@ -181,9 +185,38 @@ The application provides the following endpoints:
 }
 ```
 
+## Tests
+To run the unit tests, assuming you are inside ```app``` folder,  you can use the following command:
+```sh
+cd test && go test -v
+```
+
+If everything goes well, you will see the following output:
+```bash
+=== RUN   TestSetContractValue
+--- PASS: TestSetContractValue (0.00s)
+=== RUN   TestGetContractValue
+--- PASS: TestGetContractValue (0.00s)
+=== RUN   TestSyncContractValue
+--- PASS: TestSyncContractValue (0.00s)
+=== RUN   TestCheckContractValue
+--- PASS: TestCheckContractValue (0.00s)
+PASS
+ok
+```
+
+The test cases are written to test the following functionalities:
+1. **SetContractValue:** Tests the `/set` endpoint to set a new value for the smart contract variable.
+2. **GetContractValue:** Tests the `/get` endpoint to retrieve the current value of the smart contract variable.
+3. **SyncContractValue:** Tests the `/sync` endpoint to synchronize the value of the smart contract variable from the blockchain to the SQL database.
+4. **CheckContractValue:** Tests the `/check` endpoint to compare the value stored in the database with the current value of the smart contract variable.
+
+##### WARNING: The tests will run on the same database table as the application. So values in the database may change.
+
 ## Technologies Used
 
 - **Go:** The primary programming language used for the application.
+- **Go Test:** The testing framework used for writing unit tests.
 - **Gin:** A web framework for building RESTful APIs in Go.
 - **GORM:** An ORM library for Go, used for interacting with the PostgreSQL database.
 - **PostgreSQL:** The SQL database used to store the smart contract variable values.
@@ -195,7 +228,7 @@ The application provides the following endpoints:
 The architecture of this project is designed to interact with a smart contract on the Besu blockchain network and synchronize its value with a PostgreSQL database.
 
 ```mermaid
-    graph TD;
+   graph TD;
     A[Client] -->|HTTP Requests| B[Go Application]
     B -->|REST API| C[Gin Web Framework]
     C -->|Database Operations| D[GORM ORM]
@@ -205,6 +238,8 @@ The architecture of this project is designed to interact with a smart contract o
     B -->|Environment Variables| H[dotenv]
     I[Docker] -->|Containerization| E
     J[Hardhat] -->|Smart Contract Deployment| F
+    F -->|Blockchain Interactions| C
+    F -->|Data Sync| E
 ```
 1. **Gin Web Framework:**
    - Provides RESTful API endpoints for interacting with the smart contract and the database.
