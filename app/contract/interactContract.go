@@ -22,13 +22,10 @@ import (
 func SetContract(value uint) (*types.Receipt, error) {
 	dataValueBigInt := new(big.Int).SetUint64(uint64(value))
 
-	abiFile, err := os.ReadFile("../besu/artifacts/contracts/SimpleStorage.sol/SimpleStorage.json") // found under besu/artifacts/contracts/SimpleStorage.sol/SimpleStorage.json
-	if err != nil {
-		log.Fatalf("error reading ABI file: %v", err)
-	}
+	abiFile := LoadABIFile()
 
 	var abiJSON map[string]interface{}
-	err = json.Unmarshal(abiFile, &abiJSON)
+	err := json.Unmarshal(abiFile, &abiJSON)
 	if err != nil {
 		log.Fatalf("error unmarshalling ABI file: %v", err)
 	}
@@ -105,13 +102,10 @@ func SetContract(value uint) (*types.Receipt, error) {
 func GetContract() (interface{}, error) {
 	var result interface{}
 
-	abiFile, err := os.ReadFile("../besu/artifacts/contracts/SimpleStorage.sol/SimpleStorage.json") // found under besu/artifacts/contracts/SimpleStorage.sol/SimpleStorage.json
-	if err != nil {
-		log.Fatalf("error reading ABI file: %v", err)
-	}
+	abiFile := LoadABIFile()
 
 	var abiJSON map[string]interface{}
-	err = json.Unmarshal(abiFile, &abiJSON)
+	err := json.Unmarshal(abiFile, &abiJSON)
 	if err != nil {
 		log.Fatalf("error unmarshalling ABI file: %v", err)
 	}
@@ -159,4 +153,20 @@ func GetContract() (interface{}, error) {
 	fmt.Println("Successfully called contract!", result)
 
 	return result, err
+}
+
+func LoadABIFile() []byte {
+	abiFile, err := os.ReadFile(os.Getenv("ABI_PATH")) // found under besu/artifacts/contracts/SimpleStorage.sol/SimpleStorage.json
+	if err != nil {
+		if os.IsNotExist(err) {
+			abiFile, err = os.ReadFile(os.Getenv("TEST_ABI_PATH"))
+			if err != nil {
+				log.Fatalf("error reading ABI file from TEST_ABI_PATH: %v", err)
+			}
+		} else {
+			log.Fatalf("error reading ABI file: %v", err)
+		}
+	}
+
+	return abiFile
 }
