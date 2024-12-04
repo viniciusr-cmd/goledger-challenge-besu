@@ -86,6 +86,9 @@ fi
 echo "Starting bootnode"
 docker-compose -f docker/docker-compose-bootnode.yaml up -d
 
+echo "Starting database"
+docker-compose -f ../app/docker-compose-db.yaml up -d
+
 # Retrieve bootnode enode address
 max_retries=30
 retry_delay=1
