@@ -1,4 +1,5 @@
 # GoLedger Challenge - Besu Edition
+### [HERE YOU CAN HAVE INSTRUCTIONS TO SETUP GO RESTFUL API](https://github.com/viniciusr-cmd/goledger-challenge-besu/blob/main/app/README.md)
 
 On this challenge, you will interact with a Besu node. The goal is to create a simple application that will interact with a Besu node to transact in a smart contract, check the value of a smart contract variable and sync that value to an external database.
 
