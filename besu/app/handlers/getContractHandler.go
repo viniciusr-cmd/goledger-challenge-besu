@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"goledger-challenge/vinicius/besu/contract"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +14,7 @@ func GetContractHandler(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"transactionStatus":   "Success",
 		"contractValueResult": contractValue,
 	})
