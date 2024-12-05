@@ -1,4 +1,3 @@
-// FILE: test/handlers_test.go
 package test
 
 import (
@@ -38,10 +37,8 @@ func setupMockDatabase() {
 		panic("failed to open gorm database connection")
 	}
 
-	// Mock the schema of the PostgreSQL database
 	db.AutoMigrate(&models.Contract{})
 
-	// Insert mock data
 	db.Create(&models.Contract{
 		Value:     123,
 		UpdatedAt: time.Now(),
@@ -59,7 +56,6 @@ func TestMain(m *testing.M) {
 }
 
 func TestSetContractHandler(t *testing.T) {
-	// Mock the SetContract function
 	MockSetContract = func(value uint) (*types.Receipt, error) {
 		return &types.Receipt{
 			Status: 1,
@@ -85,7 +81,6 @@ func TestSetContractHandler(t *testing.T) {
 }
 
 func TestGetContractHandler(t *testing.T) {
-	// Mock the GetContractValue function
 	MockGetContract = func() (*types.Receipt, error) {
 		return &types.Receipt{
 			Status: 1,
@@ -106,7 +101,6 @@ func TestGetContractHandler(t *testing.T) {
 }
 
 func TestSyncContractHandler(t *testing.T) {
-	// Mock the GetContractValue function
 	MockSyncContract = func() (*types.Receipt, error) {
 		return &types.Receipt{
 			Status: 1,
