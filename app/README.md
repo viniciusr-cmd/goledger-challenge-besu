@@ -52,9 +52,9 @@ This project is a Go application that interacts with a smart contract on the Bes
 ## Initialization
 
 Make sure you have installed the requirements. To set up the environment, you need to run the following commands:
-    ```bash
-        ./startDev.sh
-    ```
+```bash
+    ./startDev.sh
+```
 
 This will bring up a local Besu network with 4 nodes. You can check the logs of each node by running the following command:
 
